@@ -81,6 +81,13 @@
   .work figure{border-radius:18px;overflow:hidden;background:#fff;border:1px solid var(--line)}
   .work img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
   .work figcaption{padding:12px 16px;font-size:14px;color:var(--mute)}
+  .keep{position:fixed;left:0;right:0;top:0;z-index:40;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 12px;background:#0f172a;color:#fff;font-size:13px;line-height:1.2;width:100%;max-width:100vw}
+  .keep .t{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .keep .t b{font-weight:600}
+  .keep .t span{opacity:.75}
+  .keep a.k{flex:0 0 auto;background:#fff;color:#0f172a;padding:6px 12px;border-radius:999px;font-weight:600;font-size:13px}
+  body.haskeep header{top:36px}
+  @media (max-width:820px){.keep{font-size:12px}.keep span.long{display:none}}
   .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
   .rv.in{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
@@ -100,7 +107,8 @@
   }
 </style>
 </head>
-<body>
+<body class="haskeep">
+<div class="keep"><span class="t"><b>Built for Your Crystal Clear Cleaning, LLC</b> <span class="long">by Athena, Cherry Hill.</span> Live through Tuesday night.</span><a class="k" href="sms:8565357833&body=Hi%20Jesse%2C%20this%20is%20Your%20Crystal%20Clear%20Cleaning%2C%20LLC.%20I%20want%20to%20keep%20the%20site.">Keep it</a></div>
 <header><div class="wrap">
   <a class="brand serif" href="#top">Your Crystal Clear <em>Cleaning.</em></a>
   <a class="navphone" href="tel:8566555998">(856) 655-5998</a>
@@ -119,7 +127,7 @@
       <div><b>4.6</b> <span class="stars">★★★★★</span></div>
       <div><b>34</b> Google reviews</div>
       <div><b>Open today</b> until 5 PM</div>
-      <div>Open Sunday · closes 5 PM</div>
+      <div>Open today · closes 5 PM</div>
     </div>
   </div></section>
 
@@ -186,9 +194,13 @@
       <h2 class="serif">Tell us what needs doing.</h2>
       <p class="lead">Leave the details here and we'll come back with a price. Or skip the form and text (856) 655-5998.</p>
     </div>
-    <form name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="quote">
-      <p hidden><label>Don't fill this in <input name="bot-field"></label></p>
+    <form name="quote" method="POST" action="https://formsubmit.co/jesseburstein2@gmail.com">
+      <input type="hidden" name="_subject" value="Quote request: Your Crystal Clear Cleaning, LLC">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="business" value="Your Crystal Clear Cleaning, LLC">
+      <input type="hidden" name="_next" value="https://sites.athenabuilt.com/your-crystal-clear-cleaning/?sent=1#quote">
+      <input type="text" name="_honey" style="display:none">
       <label>Your name <input name="name" placeholder="First name is fine" required></label>
       <label>Phone <input name="phone" type="tel" placeholder="So we can text you back" required></label>
       <label>What needs fixing <textarea name="job" placeholder="A door that won't close, a TV to mount, a leaky faucet..." required></textarea></label>
@@ -209,6 +221,7 @@
   <a class="btn ghost" href="tel:8566555998">Call</a>
 </div>
 <script>
+  if(location.search.includes('sent=1')){const f=document.querySelector('form');if(f){f.innerHTML='<p style="font-size:20px;font-family:Instrument Serif,serif">Got it. We will text you back today.</p>'}}
   document.querySelectorAll('section h2, .lead, .rev, .step, .services li, .work figure').forEach(el=>el.classList.add('rv'));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));

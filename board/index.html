@@ -47,7 +47,7 @@ function render(){const now=new Date();document.getElementById('clock').textCont
  list.sort((a,b)=>{const sa=state(a),sb=state(b);const ra=(sa.rep||sa.yes)?0:(sa.stop||sa.no)?9:sa.s2?2:1;const rb=(sb.rep||sb.yes)?0:(sb.stop||sb.no)?9:sb.s2?2:1;if(ra!==rb)return ra-rb;return (a.wave||'A').localeCompare(b.wave||'A')});
  for(const r of list){const s=state(r);const d=document.createElement('div');d.className='card'+((s.yes||s.no||s.stop)?' done':'')+(s.rep?' hot':'');
   const body1=encodeURIComponent(r.msg1),body2=encodeURIComponent(s.s2&&r.sentLink?r.fu:r.msg2);
-  const fb=r.fb?('https://m.me/'+r.fb):('https://www.facebook.com/search/pages/?q='+encodeURIComponent(r.name+' '+r.town));
+  const fb=r.fb?(r.fb.startsWith('p/')?'https://www.facebook.com/'+r.fb:'https://m.me/'+r.fb):('https://www.facebook.com/search/pages/?q='+encodeURIComponent(r.name+' '+r.town));
   d.innerHTML=`<div class="top"><h3>${r.name}</h3><small>${r.owner?r.owner+' · ':''}${r.phone}</small></div>
   <div class="meta"><b>${r.rating}★ ${r.count}</b> · ${r.town} · ${r.hours} · ${r.type==='shop'?'shop line':'cell'}${r.openSun?'':' · <span style=color:#b45309>likely closed Sun</span>'}</div>
   <div class="acts">
@@ -56,7 +56,7 @@ function render(){const now=new Date();document.getElementById('clock').textCont
    <a class="v" href="https://voice.google.com/u/0/messages?itemId=t.${encodeURIComponent(r.tel)}" target="_blank">Open in Voice</a>
    <a href="tel:${r.tel}" onclick="mark('${r.slug}','call')">Call</a>
    <button class="p" onclick="copyMsg('${r.slug}','dm',this)">Copy DM</button>
-   <a class="v" href="${fb}" target="_blank">${r.fb?'Open Messenger':'Find page, then Message'}</a>
+   <a class="v" href="${fb}" target="_blank">${r.fb?(r.fb.startsWith('p/')?'Open page, tap Message':'Open Messenger'):'Find page, then Message'}</a>
    <a href="${r.site}" target="_blank">Open site</a>
    <a href="${r.video||'#'}" class="${r.video?'':'dis'}" target="_blank">Video</a>
   </div>

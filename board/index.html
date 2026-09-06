@@ -9,8 +9,8 @@ header b{font-size:17px}header .n{font-variant-numeric:tabular-nums;opacity:.85}
 .card.done{opacity:.55}.card.hot{border-color:#dc2626;box-shadow:0 0 0 2px #fee2e2}
 .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}.top h3{margin:0;font-size:17px}.top small{color:var(--mute)}
 .meta{color:var(--mute);font-size:13px;margin:4px 0 10px}.meta b{color:var(--ink);font-weight:600}
-.acts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.acts a,.acts button{display:block;text-align:center;padding:11px 8px;border-radius:10px;border:1px solid var(--line);background:#fafafa;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
-.acts a.p{background:#111;color:#fff;border-color:#111}.acts a.s{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.acts a.dis{opacity:.35;pointer-events:none}
+.acts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.acts a,.acts button{display:block;width:100%;font:inherit;cursor:pointer;text-align:center;padding:11px 8px;border-radius:10px;border:1px solid var(--line);background:#fafafa;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+.acts a.p,.acts button.p{background:#111;color:#fff;border-color:#111}.acts button.s{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.acts a.v{background:#dcfce7;border-color:#86efac;grid-column:1 / -1}.acts button.ok{background:#15803d!important;border-color:#15803d!important}.acts a.s{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.acts a.dis{opacity:.35;pointer-events:none}
 .st{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.st label{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;background:#fff}.st label.on{background:#dcfce7;border-color:#86efac}.st label.on.r{background:#fee2e2;border-color:#fca5a5}.st label.on.c{background:#111;color:#fff}
 .st input{margin:0 4px 0 0;vertical-align:-1px}
 .next{font-size:13px;color:var(--warn);font-weight:600;margin-top:8px}
@@ -64,6 +64,7 @@ function render(){const now=new Date();document.getElementById('clock').textCont
   <div class="msg"><b>msg 1:</b> ${r.msg1}\n\n<b>link msg:</b> ${r.msg2}</div>`;
   d.querySelector('h3').onclick=()=>d.classList.toggle('open');L.appendChild(d);}
 }
+function copyMsg(slug,k,btn){const r=ROWS.find(x=>x.slug===slug);const s=get(slug);const txt=k==='s1'?r.msg1:((s.s2&&r.sentLink)?r.fu:r.msg2);const done=()=>{btn.classList.add('ok');btn.textContent='Copied, now Open in Voice';mark(slug,k)};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>fallback())}else fallback();function fallback(){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){prompt('Copy this:',txt)}ta.remove()}}
 function stamp(){const d=new Date();return d.toISOString().slice(0,10)+' '+d.toTimeString().slice(0,5)}
 function mark(slug,k){const s=get(slug);if(!s[k]){s[k]=stamp();set(slug,s);setTimeout(render,400)}}
 function toggle(slug,k,on){const s=get(slug);s[k]=on?stamp():0;set(slug,s);render()}

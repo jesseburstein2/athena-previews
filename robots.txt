@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /board/
+Disallow: /tonight/
+Sitemap: https://sites.athenabuilt.com/sitemap.xml
